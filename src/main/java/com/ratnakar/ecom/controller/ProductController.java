@@ -3,6 +3,7 @@ package com.ratnakar.ecom.controller;
 import com.ratnakar.ecom.model.Products;
 import com.ratnakar.ecom.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,7 +18,7 @@ public class ProductController {
     @Autowired
     ProductService productService;
     @GetMapping("/products")
-    public List<Products> getProducts(){
+    public ResponseEntity<List<Products>> getProducts(){
         return productService.getAllProducts();
     }
 }
