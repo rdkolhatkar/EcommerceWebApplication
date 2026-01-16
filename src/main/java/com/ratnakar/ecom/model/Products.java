@@ -52,9 +52,10 @@ public class Products {
     @JsonIgnore
     private String imageType;
 
-//    @Lob // @Lob maps byte[] to BYTEA in PostgreSQL automatically
+    @Lob // @Lob tells JPA/Hibernate that a field should be stored in the database as a large object, used for storing
     @JsonIgnore
-    @Column(name = "image_data", columnDefinition = "BYTEA")
+//    @Column(name = "image_data", columnDefinition = "BYTEA")
+    @Column(name = "image_data", columnDefinition = "LONGBLOB")
     private byte[] imageData;
 
     // Constructor for "not found" placeholder
