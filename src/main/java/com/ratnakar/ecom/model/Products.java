@@ -1,18 +1,17 @@
 package com.ratnakar.ecom.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Entity
-@Table(
-        name = "product",
-        schema = "product_schema"
-)
+@Table(name = "product", schema = "product_schema")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -36,6 +35,7 @@ public class Products {
     private String category;
 
     @Column(name = "release_date")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     private LocalDate releaseDate;
 
     @Column(name = "product_available")
@@ -43,4 +43,22 @@ public class Products {
 
     @Column(name = "stock_quantity")
     private int stockQuantity;
+
+    @Column(name = "image_name")
+    @JsonIgnore
+    private String imageName;
+
+    @Column(name = "image_type")
+    @JsonIgnore
+    private String imageType;
+
+//    @Lob // @Lob maps byte[] to BYTEA in PostgreSQL automatically
+    @JsonIgnore
+    @Column(name = "image_data", columnDefinition = "BYTEA")
+    private byte[] imageData;
+
+    // Constructor for "not found" placeholder
+    public Products(long id) {
+        this.id = id;
+    }
 }

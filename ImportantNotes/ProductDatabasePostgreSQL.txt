@@ -1,0 +1,56 @@
+-- Create database for products
+CREATE DATABASE products_db;
+-- Create a schema named 'product_schema'
+CREATE SCHEMA product_schema;
+-- Create Table product
+CREATE TABLE product_schema.product (
+    id BIGSERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    description TEXT,
+    brand VARCHAR(255),
+    price NUMERIC(10,2),
+    category VARCHAR(255),
+    release_date DATE,
+    product_available BOOLEAN,
+    stock_quantity INT,
+    image_name VARCHAR(255),
+    image_type VARCHAR(100),
+    image_data BYTEA
+);
+-- Drop the table
+DROP TABLE IF EXISTS product_schema.product;
+-- Insert Data into Table product
+INSERT INTO product_schema.product
+(
+    name,
+    description,
+    brand,
+    price,
+    category,
+    release_date,
+    product_available,
+    stock_quantity,
+    image_name,
+    image_type,
+    image_data
+)
+VALUES
+(
+    'Sample Product',
+    'This is a sample product description.',
+    'SampleBrand',
+    199.99,
+    'Electronics',
+    '2026-01-16',
+    true,
+    50,
+    'sample.jpg',
+    'image/jpeg',
+    decode('FFD8FFE0', 'hex') -- small dummy JPEG header in hex
+);
+
+SELECT table_schema, table_name
+FROM information_schema.tables
+WHERE table_schema = 'product_schema';
+
+SELECT * FROM product_schema.product;
