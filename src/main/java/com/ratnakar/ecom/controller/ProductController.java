@@ -52,4 +52,10 @@ public class ProductController {
             return new ResponseEntity<>("Failed to save product image", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @GetMapping("product/{productId}/image")
+    public ResponseEntity<byte[]> getImageByProductId(@PathVariable int productId){
+        Products product = productService.getProductById(productId);
+        return new ResponseEntity<>(product.getImageData(), HttpStatus.OK);
+    }
 }
