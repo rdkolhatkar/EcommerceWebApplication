@@ -55,10 +55,10 @@ VALUES
 
 -- Verify Table and Data
 SHOW TABLES;
-
 DESCRIBE product;
-
 SELECT * FROM product;
 -- Drop Table and Schema
+TRUNCATE TABLE product;
 DROP TABLE IF EXISTS product;
 DROP DATABASE IF EXISTS products_db;
+ALTER TABLE product AUTO_INCREMENT = 1;

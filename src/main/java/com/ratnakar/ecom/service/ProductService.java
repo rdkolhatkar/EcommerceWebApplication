@@ -3,6 +3,7 @@ package com.ratnakar.ecom.service;
 import com.ratnakar.ecom.model.ProductRequestDTO;
 import com.ratnakar.ecom.model.Products;
 import com.ratnakar.ecom.repository.ProductRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -43,5 +44,34 @@ public class ProductService {
         }
 
         return productRepository.save(product);
+    }
+
+    public void updateProduct(long id, ProductRequestDTO dto, MultipartFile image) throws IOException {
+
+        Products product = productRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Product not found"));
+
+        // Update fields
+        product.setName(dto.getName());
+        product.setDescription(dto.getDescription());
+        product.setBrand(dto.getBrand());
+        product.setPrice(dto.getPrice());
+        product.setCategory(dto.getCategory());
+        product.setReleaseDate(dto.getReleaseDate());
+        product.setProductAvailable(dto.isProductAvailable());
+        product.setStockQuantity(dto.getStockQuantity());
+
+        // Update image ONLY if provided
+        if (image != null && !image.isEmpty()) {
+            product.setImageName(image.getOriginalFilename());
+            product.setImageType(image.getContentType());
+            product.setImageData(image.getBytes());
+        }
+
+        productRepository.save(product);
+    }
+
+    public void deleteProduct(long id) {
+        productRepository.deleteById(id);
     }
 }

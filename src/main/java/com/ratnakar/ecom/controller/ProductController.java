@@ -3,8 +3,10 @@ package com.ratnakar.ecom.controller;
 import com.ratnakar.ecom.model.ProductRequestDTO;
 import com.ratnakar.ecom.model.Products;
 import com.ratnakar.ecom.service.ProductService;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -53,15 +55,60 @@ public class ProductController {
         }
     }
 
-    @GetMapping(value = "/product/{productId}/image", produces = MediaType.IMAGE_JPEG_VALUE)
+    @GetMapping("/product/{productId}/image")
     public ResponseEntity<byte[]> getImageByProductId(@PathVariable long productId) {
         Products product = productService.getProductById(productId);
-        if (product.getId() <= 0 || product.getImageData() == null) {
+        if (product.getImageData() == null) {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok()
+                .header("Content-Disposition", "inline; filename=\"" + product.getImageName() + "\"")
                 .contentType(MediaType.parseMediaType(product.getImageType()))
                 .body(product.getImageData());
+    }
+
+    @GetMapping("/product/{productId}/image/raw")
+    public ResponseEntity<byte[]> getProductImageRaw(@PathVariable long productId) {
+        Products product = productService.getProductById(productId);
+        if (product.getImageData() == null) {
+            return ResponseEntity.notFound().build();
+        }
+        String imageType = product.getImageType();
+        if (imageType == null || imageType.isEmpty()) {
+            imageType = "image/jpeg"; // default fallback
+        }
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION,
+                        "inline; filename=" + product.getImageName())
+                .contentType(MediaType.IMAGE_JPEG)
+                .body(product.getImageData());
+    }
+
+    @PutMapping(value = "/product/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<String> updateProduct(
+            @PathVariable long id,
+            @RequestPart("product") ProductRequestDTO dto,
+            @RequestPart(value = "imageFile", required = false) MultipartFile imageFile) {
+
+        try {
+            productService.updateProduct(id, dto, imageFile);
+            return ResponseEntity.ok("Updated Successfully");
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @DeleteMapping("/product/{id}")
+    public ResponseEntity<String> deleteProduct(@PathVariable long id){
+        Products product = productService.getProductById(id);
+        if(product != null){
+            productService.deleteProduct(id);
+            return new ResponseEntity<>("Product Deleted", HttpStatus.OK);
+        }else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
 }

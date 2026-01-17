@@ -17,8 +17,7 @@ CREATE TABLE product_schema.product (
     image_type VARCHAR(100),
     image_data BYTEA
 );
--- Drop the table
-DROP TABLE IF EXISTS product_schema.product;
+
 -- Insert Data into Table product
 INSERT INTO product_schema.product
 (
@@ -48,9 +47,9 @@ VALUES
     'image/jpeg',
     decode('FFD8FFE0', 'hex') -- small dummy JPEG header in hex
 );
-
-SELECT table_schema, table_name
-FROM information_schema.tables
-WHERE table_schema = 'product_schema';
-
+-- Select Data
+SELECT table_schema, table_name FROM information_schema.tables WHERE table_schema = 'product_schema';
 SELECT * FROM product_schema.product;
+-- Drop the table
+DROP TABLE IF EXISTS product_schema.product;
+TRUNCATE TABLE product RESTART IDENTITY CASCADE;
