@@ -1,6 +1,6 @@
 package com.ratnakar.ecom.service;
 
-import com.ratnakar.ecom.model.ProductRequestDTO;
+import com.ratnakar.ecom.model.dto.ProductRequestDTO;
 import com.ratnakar.ecom.model.Products;
 import com.ratnakar.ecom.repository.ProductRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -73,5 +73,10 @@ public class ProductService {
 
     public void deleteProduct(long id) {
         productRepository.deleteById(id);
+    }
+
+    public List<Products> searchProducts(String keyword) {
+        // Here we will use the DSL which is called as Domain Specific Language in our case JPQL (Java Persistence Query Language)
+        return productRepository.searchProducts(keyword);
     }
 }

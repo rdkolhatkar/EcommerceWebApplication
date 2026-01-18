@@ -1,6 +1,6 @@
 package com.ratnakar.ecom.controller;
 
-import com.ratnakar.ecom.model.ProductRequestDTO;
+import com.ratnakar.ecom.model.dto.ProductRequestDTO;
 import com.ratnakar.ecom.model.Products;
 import com.ratnakar.ecom.service.ProductService;
 import jakarta.persistence.EntityNotFoundException;
@@ -110,5 +110,15 @@ public class ProductController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+
+    @GetMapping("/products/search")
+    public ResponseEntity<List<Products>> searchProducts(@RequestParam String keyword){
+        List<Products> products = productService.searchProducts(keyword);
+        System.out.println("Searching with Keyword : "+keyword);
+        return new ResponseEntity<>(products, HttpStatus.OK);
+    }
+
+
+
 
 }
