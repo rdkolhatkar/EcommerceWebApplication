@@ -1,4 +1,4 @@
-package com.ratnakar.ecom.model.dto;
+package com.ratnakar.ecom.dto;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonFormat;

@@ -1,6 +1,6 @@
 package com.ratnakar.ecom.service;
 
-import com.ratnakar.ecom.model.dto.ProductRequestDTO;
+import com.ratnakar.ecom.dto.ProductRequestDTO;
 import com.ratnakar.ecom.model.Products;
 import com.ratnakar.ecom.repository.ProductRepository;
 import jakarta.persistence.EntityNotFoundException;
