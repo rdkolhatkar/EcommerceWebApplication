@@ -2,7 +2,14 @@
 CREATE DATABASE products_db;
 -- Create a schema named 'product_schema'
 CREATE SCHEMA product_schema;
--- Create Table product
+
+-- Drop table if exists
+DROP TABLE IF EXISTS product_schema.product CASCADE;
+
+-- Create schema if not exists
+CREATE SCHEMA IF NOT EXISTS product_schema;
+
+-- Create the table
 CREATE TABLE product_schema.product (
     id BIGSERIAL PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
@@ -17,6 +24,10 @@ CREATE TABLE product_schema.product (
     image_type VARCHAR(100),
     image_data BYTEA
 );
+
+-- Reset sequence to 1 (so next insert gets ID=1 if table is empty)
+ALTER SEQUENCE product_schema.product_id_seq RESTART WITH 1;
+
 
 -- Insert Data into Table product
 INSERT INTO product_schema.product
@@ -53,3 +64,9 @@ SELECT * FROM product_schema.product;
 -- Drop the table
 DROP TABLE IF EXISTS product_schema.product;
 TRUNCATE TABLE product RESTART IDENTITY CASCADE;
+
+-- Drop All tables
+-- Drop tables safely in PostgreSQL
+DROP TABLE IF EXISTS product_schema.order_items CASCADE;
+DROP TABLE IF EXISTS product_schema.orders CASCADE;
+DROP TABLE IF EXISTS product_schema.product CASCADE;

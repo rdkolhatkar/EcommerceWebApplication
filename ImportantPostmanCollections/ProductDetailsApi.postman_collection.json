@@ -1,0 +1,265 @@
+{
+  "info": {
+    "_postman_id": "0d44ff2e-c9ad-4b65-b324-b776881b0908",
+    "name": "ProductDetailsApi",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "19864596",
+    "_collection_link": "https://go.postman.co/collection/19864596-0d44ff2e-c9ad-4b65-b324-b776881b0908?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "getAllProducts",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": ""
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/products",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "products"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "getProductById",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": ""
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/products/1",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "products",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "addProductImage",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "product",
+              "value": "{\n  \"name\": \"Sony WH-1000XM5\",\n  \"description\": \"Premium wireless noise cancelling headphones with 30 hours battery life\",\n  \"brand\": \"Sony\",\n  \"price\": 34999.00,\n  \"category\": \"Audio\",\n  \"releaseDate\": \"10-06-2024\",\n  \"productAvailable\": true,\n  \"stockQuantity\": 120\n}\n",
+              "type": "text",
+              "uuid": "15a36535-5d91-451d-9c0f-4891796983ee",
+              "contentType": "application/json"
+            },
+            {
+              "key": "imageFile",
+              "type": "file",
+              "uuid": "6924cad1-e255-49f7-881a-68ec5d354fcb",
+              "contentType": "multipart/form-data",
+              "src": "postman-cloud:///1f0f2ab7-27de-4cb0-aa93-b7f0dc59e5ca"
+            }
+          ]
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/product",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "product"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "getProductImage",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "formdata",
+          "formdata": []
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/product/1/image",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "product",
+            "1",
+            "image"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "getProductRawImage",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "formdata",
+          "formdata": []
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/product/1/image/raw",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "product",
+            "1",
+            "image",
+            "raw"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "updateProduct",
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "product",
+              "value": "{\n  \"name\": \"Sony WH-1000XM5\",\n  \"description\": \"Premium wireless noise cancelling headphones with 30 hours battery life\",\n  \"brand\": \"Sony\",\n  \"price\": 35999.00,\n  \"category\": \"Audio\",\n  \"releaseDate\": \"10-06-2024\",\n  \"productAvailable\": true,\n  \"stockQuantity\": 120\n}\n",
+              "type": "text",
+              "uuid": "7b3c63f2-39f3-43a9-8d56-d57e30cd9563",
+              "contentType": "application/json"
+            },
+            {
+              "key": "imageFile",
+              "type": "file",
+              "uuid": "1c72b4b4-e1bf-404c-8333-fac290313edd",
+              "contentType": "multipart/form-data",
+              "src": "postman-cloud:///1f0f388b-a3ac-4180-9a4e-294a5d3bd102"
+            }
+          ]
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/product/1",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "product",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "deleteProduct",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/product/1",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "product",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "searchProducts",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/products/search?keyword=wireless",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "products",
+            "search"
+          ],
+          "query": [
+            {
+              "key": "keyword",
+              "value": "wireless"
+            }
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}

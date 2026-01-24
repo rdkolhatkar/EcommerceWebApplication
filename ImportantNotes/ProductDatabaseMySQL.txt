@@ -7,9 +7,9 @@ USE products_db;
 -- Drop table if exists
 DROP TABLE IF EXISTS product;
 
--- Create table product
+-- Create the table with AUTO_INCREMENT starting from 1
 CREATE TABLE product (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     description TEXT,
     brand VARCHAR(255),
@@ -21,7 +21,11 @@ CREATE TABLE product (
     image_name VARCHAR(255),
     image_type VARCHAR(100),
     image_data LONGBLOB
-);
+) AUTO_INCREMENT = 1;
+
+-- Optional: truncate before adding new products (resets AUTO_INCREMENT)
+TRUNCATE TABLE product;
+
 
 -- Insert Data
 INSERT INTO product
@@ -62,3 +66,8 @@ TRUNCATE TABLE product;
 DROP TABLE IF EXISTS product;
 DROP DATABASE IF EXISTS products_db;
 ALTER TABLE product AUTO_INCREMENT = 1;
+
+-- Delete All tables
+DROP TABLE IF EXISTS order_items;
+DROP TABLE IF EXISTS orders;
+DROP TABLE IF EXISTS product;
