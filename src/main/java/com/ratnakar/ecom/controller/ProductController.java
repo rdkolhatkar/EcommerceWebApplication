@@ -16,7 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.List;
 
-@Slf4j
+@Slf4j // Lombok annotation to automatically add a logger
 @RestController
 @CrossOrigin
 @RequestMapping("/api")
@@ -28,16 +28,18 @@ public class ProductController {
     @GetMapping("/products")
     public ResponseEntity<List<Products>> getProducts() {
         return new ResponseEntity<>(productService.getAllProducts(), HttpStatus.OK);
+        // Returns all products with HTTP 200
     }
 
     @GetMapping("/products/{id}")
     public ResponseEntity<Products> getProductById(@PathVariable long id) {
+        // @PathVariable extracts {id} from URL
         Products product = productService.getProductById(id);
         if (product.getId() > 0) {
             return new ResponseEntity<>(product, HttpStatus.OK);
         } else {
-            log.error("Product Not Found");
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            log.error("Product Not Found"); // Logs error to console/log files
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND); // 404 if not found
         }
     }
 
@@ -45,6 +47,8 @@ public class ProductController {
     public ResponseEntity<?> addProduct(
             @RequestPart("product") ProductRequestDTO dto,
             @RequestPart("imageFile") MultipartFile imageFile) {
+        // @RequestPart used for multipart requests (file + JSON)
+        // MultipartFile represents uploaded file
 
         try {
             Products savedProduct = productService.addProduct(dto, imageFile);
@@ -59,29 +63,13 @@ public class ProductController {
     public ResponseEntity<byte[]> getImageByProductId(@PathVariable long productId) {
         Products product = productService.getProductById(productId);
         if (product.getImageData() == null) {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.notFound().build(); // 404 if no image
         }
         return ResponseEntity.ok()
                 .header("Content-Disposition", "inline; filename=\"" + product.getImageName() + "\"")
                 .contentType(MediaType.parseMediaType(product.getImageType()))
                 .body(product.getImageData());
-    }
-
-    @GetMapping("/product/{productId}/image/raw")
-    public ResponseEntity<byte[]> getProductImageRaw(@PathVariable long productId) {
-        Products product = productService.getProductById(productId);
-        if (product.getImageData() == null) {
-            return ResponseEntity.notFound().build();
-        }
-        String imageType = product.getImageType();
-        if (imageType == null || imageType.isEmpty()) {
-            imageType = "image/jpeg"; // default fallback
-        }
-        return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION,
-                        "inline; filename=" + product.getImageName())
-                .contentType(MediaType.IMAGE_JPEG)
-                .body(product.getImageData());
+        // Returns image bytes with proper headers for browser rendering
     }
 
     @PutMapping(value = "/product/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -106,7 +94,7 @@ public class ProductController {
         if(product != null){
             productService.deleteProduct(id);
             return new ResponseEntity<>("Product Deleted", HttpStatus.OK);
-        }else {
+        } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
@@ -118,7 +106,21 @@ public class ProductController {
         return new ResponseEntity<>(products, HttpStatus.OK);
     }
 
-
-
-
+    @GetMapping("/product/{productId}/image/raw")
+    public ResponseEntity<byte[]> getProductImageRaw(@PathVariable long productId) {
+        Products product = productService.getProductById(productId);
+        if (product.getImageData() == null) {
+            return ResponseEntity.notFound().build();
+        }
+        String imageType = product.getImageType();
+        if (imageType == null || imageType.isEmpty()) {
+            imageType = "image/jpeg"; // default fallback
+        }
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION,
+                        "inline; filename=" + product.getImageName())
+                .contentType(MediaType.IMAGE_JPEG)
+                .body(product.getImageData());
+    }
 }
+

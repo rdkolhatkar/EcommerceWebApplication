@@ -6,9 +6,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
-@Entity(name = "order")
+@Entity
+@Table(name = "orders")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -22,6 +24,15 @@ public class Orders {
     private String email;
     private String status;
     private LocalDate orderDate;
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
-    private List<OrderItems> orderItems;
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<OrderItems> orderItems = new ArrayList<>();
+    public void addOrderItem(OrderItems item) {
+        orderItems.add(item);
+        item.setOrder(this);// Maintain both sides of relationship
+    }
 }
+/*
+    mappedBy = inverse side of relationship
+    cascade = ALL → saves/deletes child entities automatically
+    orphanRemoval = true → deletes removed children automatically
+*/

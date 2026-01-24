@@ -8,7 +8,7 @@ import lombok.Data;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-@Data
+@Data // Lombok generates getters, setters, toString, equals, hashCode
 public class ProductRequestDTO {
 
     private String name;
@@ -20,8 +20,11 @@ public class ProductRequestDTO {
     private LocalDate releaseDate;
     private boolean productAvailable;
     private int stockQuantity;
-
-    @JsonCreator
+    /*
+    @JsonCreator + @JsonProperty = lets Jackson map JSON keys to constructor parameters
+    Saves default setters for immutable initialization
+    */
+    @JsonCreator // Jackson uses this constructor to create object from JSON
     public ProductRequestDTO(
             @JsonProperty("name") String name,
             @JsonProperty("description") String description,
